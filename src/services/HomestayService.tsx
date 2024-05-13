@@ -1,8 +1,16 @@
+import axios, { AxiosResponse } from "axios";
+import { HomestayResponse } from "../models/HomestayDto";
+
+const api = "http://localhost:8000/homestay/";
 
 type Props = {}
 
-const ExpenseService = (props: Props) => {
-  return (
-    <div>ExpenseService</div>
-  )
+export const getTrendingHomestay = async () => {
+  try {
+    const data: any = await axios.get<HomestayResponse[]>(api + "trending");
+
+    return data;
+  } catch (error) {
+    // handleError(error);
+  }
 }

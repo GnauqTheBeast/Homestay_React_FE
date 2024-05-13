@@ -1,4 +1,4 @@
-import Home from "../../components/Gnauq/Gnauq";
+import Home from "../../components/HomePage/Home";
 
 type Props = {};
 

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import HomePage from "../pages/HomePage/HomePage";
+import StartPage from "../pages/StartPage/StartPage";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import Income from "../components/Income/Income";
 import Expense from "../components/Expense/Expense";
@@ -11,16 +11,17 @@ import ProtectedRoute from "./ProtectedRoute";
 import User from "../components/User/User";
 import OtpPage from "../pages/OtpPage/OtpPage";
 import UsersPage from "../pages/UsersPage/UsersPage";
+import HomePage from "../pages/HomePage/HomePage";
 
 export const router = createBrowserRouter([
     {
       path: "/",
       element: <App />,
       children: [
-        { path: "", element: <HomePage /> },
+        { path: "", element: <StartPage /> },
         { path: "login", element: <LoginPage /> },
         { path: "register", element: <RegisterPage /> },
-        { path: "dashboard", element: <DashboardPage /> },
+        { path: "home", element: <HomePage /> },
         { path: "otp", element: <OtpPage /> },
         {
             path: "admin/dashboard",

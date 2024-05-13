@@ -3,7 +3,7 @@ import backgroundImage from "./background.jpg"
 
 interface Props {}
 
-const Home = (props: Props) => {
+const Start = (props: Props) => {
   return (
     <section
       id="gnauq"
@@ -20,7 +20,7 @@ const Home = (props: Props) => {
           </p>
           <div className="mx-auto lg:mx-0">
             <Link
-              to="/dashboard"
+              to="/home"
               className="py-5 px-10 text-2xl font-bold text-white bg-lightGreen rounded lg:py-4 hover:opacity-70"
             >
               Get Started
@@ -34,4 +34,4 @@ const Home = (props: Props) => {
   );
 };
 
-export default Home;
+export default Start;
