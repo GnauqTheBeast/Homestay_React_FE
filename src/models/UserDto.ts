@@ -20,5 +20,16 @@ export type UserGet = {
 
 export type LoginResponse = {
     access_token: string;
-    user: UserGet;
+    refresh_token: string;
+    userId: number;
+    userEmail: string;
+    status: string;
 };
+
+export type OtpRequest = {
+    otp: string;
+}
+
+export type OtpResponse = {
+    otp: string;
+}

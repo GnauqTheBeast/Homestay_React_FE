@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "../../contexts/useAuth";
 import { useForm } from "react-hook-form";
 import { RegisterRequest } from "../../models/UserDto";
+import { useNavigate } from "react-router";
 
 type Props = {};
 
@@ -23,19 +24,21 @@ const validation = Yup.object().shape({
 });
 
 const RegisterPage = (props: Props) => {
-  const { registerUser } = useAuth();
+  const { registerUser, otpUser } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
-  const handleLogin = (form: RegisterFormsInputs) => {
+  const handleRegister = async (form: RegisterFormsInputs) => {
     registerUser(form as unknown as RegisterRequest);
   };
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 pt-8">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mb-20 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -43,7 +46,7 @@ const RegisterPage = (props: Props) => {
             </h1>
             <form
               className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit(handleLogin)}
+              onSubmit={handleSubmit(handleRegister)}
             >
               <div>
                 <label
@@ -60,7 +63,7 @@ const RegisterPage = (props: Props) => {
                   {...register("email")}
                 />
                 {errors.email ? (
-                  <p className="text-white">{errors.email.message}</p>
+                  <p>{errors.email.message}</p>
                 ) : (
                   ""
                 )}
@@ -80,7 +83,7 @@ const RegisterPage = (props: Props) => {
                   {...register("fullName")}
                 />
                 {errors.fullName ? (
-                  <p className="text-white">{errors.fullName.message}</p>
+                  <p>{errors.fullName.message}</p>
                 ) : (
                   ""
                 )}
@@ -100,7 +103,7 @@ const RegisterPage = (props: Props) => {
                   {...register("phone")}
                 />
                 {errors.phone ? (
-                  <p className="text-white">{errors.phone.message}</p>
+                  <p>{errors.phone.message}</p>
                 ) : (
                   ""
                 )}
@@ -120,7 +123,7 @@ const RegisterPage = (props: Props) => {
                   {...register("password")}
                 />
                 {errors.password ? (
-                  <p className="text-white">{errors.password.message}</p>
+                  <p>{errors.password.message}</p>
                 ) : (
                   ""
                 )}
@@ -130,7 +133,7 @@ const RegisterPage = (props: Props) => {
                   htmlFor="passwordConfirmation"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  Confirm password
                 </label>
                 <input
                   type="password"
@@ -139,8 +142,8 @@ const RegisterPage = (props: Props) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   {...register("passwordConfirmation")}
                 />
-                {errors.password ? (
-                  <p className="text-white">{errors.password.message}</p>
+                {errors.passwordConfirmation ? (
+                  <p>{errors.passwordConfirmation.message}</p>
                 ) : (
                   ""
                 )}

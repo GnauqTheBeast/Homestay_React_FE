@@ -1,11 +1,11 @@
-import Duckie from "../../components/Duckie/Duckie";
+import Home from "../../components/Gnauq/Gnauq";
 
 type Props = {};
 
 const HomePage = (props: Props) => {
   return (
     <>
-      <Duckie />
+      <Home />
     </>
   );
 };

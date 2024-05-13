@@ -4,12 +4,13 @@ import HomePage from "../pages/HomePage/HomePage";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import Income from "../components/Income/Income";
 import Expense from "../components/Expense/Expense";
-import Budget from "../components/Budget/Budget";
 import Dashboard from "../components/Dashboard/Dashboard";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import User from "../components/User/User";
+import OtpPage from "../pages/OtpPage/OtpPage";
+import UsersPage from "../pages/UsersPage/UsersPage";
 
 export const router = createBrowserRouter([
     {
@@ -19,8 +20,10 @@ export const router = createBrowserRouter([
         { path: "", element: <HomePage /> },
         { path: "login", element: <LoginPage /> },
         { path: "register", element: <RegisterPage /> },
+        { path: "dashboard", element: <DashboardPage /> },
+        { path: "otp", element: <OtpPage /> },
         {
-            path: "dashboard",
+            path: "admin/dashboard",
             element: (
               <ProtectedRoute>
                 <DashboardPage />
@@ -28,10 +31,20 @@ export const router = createBrowserRouter([
             ),
             children: [
               { path: "", element: <Dashboard /> },
-              { path: "income", element: <Income /> },
-              { path: "expense", element: <Expense /> },
-              { path: "budget", element: <Budget /> },
-              { path: "user", element: <User />}
+              { path: "homestay", element: <Income /> },
+              { path: "user", element: <User />},
+              { path: "revenue", element: <Expense /> },
+            ],
+          },
+          {
+            path: "users",
+            element: (
+              <ProtectedRoute>
+                <UsersPage />
+              </ProtectedRoute>
+            ),
+            children: [
+            
             ],
           },
       ],

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAPI, registerAPI } from "../services/UserService";
+import { loginAPI, otpAPI, otpHandler, registerAPI } from "../services/UserService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
@@ -13,6 +13,8 @@ type UserContextType = {
   loginUser: (LoginRequest:LoginRequest) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
+  otpUser: (access_token: string) => void;
+  otpVerify: (otp:string) => void;
 };
 
 type Props = { children: React.ReactNode };
@@ -36,20 +38,13 @@ export const UserProvider = ({ children }: Props) => {
     setIsReady(true);
   }, []);
 
-  const registerUser = async (
-    registerRequest: RegisterRequest
-  ) => {
+  const registerUser = async (registerRequest: RegisterRequest) => {
     await registerAPI(registerRequest)
-      .then((res) => {
-        if (res?.data.isTrue) {
-            toast.success("Register Success!");
-            navigate("/");
-        }
-        else{
-            toast.warning(res?.data.message);
-        }
+      .then(() => {
+          toast.success("Register Success!");
+          navigate("/login");
       })
-      .catch((e) => toast.warning("Server error occured"));
+      .catch(() => toast.warning("Register Error!"));
   };
 
   const loginUser = async (loginRequest:LoginRequest) => {
@@ -57,13 +52,19 @@ export const UserProvider = ({ children }: Props) => {
         .then((res) => {
             if (res) {
             try {
-                const response: LoginResponse = res?.data.result as LoginResponse;
+                const response: LoginResponse = res?.data as LoginResponse;
+                localStorage.setItem("status", response.status);
                 localStorage.setItem("access_token", response.access_token);
-                const userObj = response.user;
-                localStorage.setItem("user", userObj.id);
+                localStorage.setItem("user", response.userId.toString());
                 setToken(response.access_token);
-                setUser(userObj.id);
+                setUser(response.userId.toString());
                 toast.success("Login Success!");
+                console.log(response.status);
+                if(response.status == "pending") {
+                  otpUser(response.access_token);
+                  navigate("/otp");
+                  return;
+                }
                 navigate("/dashboard");
             }
             catch(e){
@@ -72,7 +73,24 @@ export const UserProvider = ({ children }: Props) => {
         }
     })
     .catch((e) => toast.warning("Server error occured"));
-};
+  };
+
+  const otpUser = async (access_token: string) => {
+    await otpAPI(access_token)
+       .then(() => { 
+          toast.success("Check your OTP in your email");
+       });
+  }
+
+  const otpVerify = async (otp: string) => {
+    const access_token = localStorage.getItem("access_token");
+    await otpHandler(otp, access_token as string)
+       .then(() => { 
+          toast.success("OTP verified");
+          navigate("/dashboard");
+       })
+       .catch((e) => toast.warning("Server error occured"));
+  }
 
   const isLoggedIn = () => {
     return !!userId;
@@ -88,7 +106,7 @@ export const UserProvider = ({ children }: Props) => {
 
   return (
     <UserContext.Provider
-      value={{ loginUser, userId, token, logout, isLoggedIn, registerUser }}
+      value={{ loginUser, userId, token, logout, isLoggedIn, registerUser, otpUser, otpVerify }}
     >
       {isReady ? children : null}
     </UserContext.Provider>
