@@ -34,23 +34,30 @@ export const registerAPI = async (request: RegisterRequest) => {
   }
 };
 
-export const getUserAPI = async () => {
+export const getUserAPI = async (access_token: string) => {
   try {
-    const data = await axios.get<ResponeDto>(api + "user");
+    const data = await axios.get<any>(api + "users/me", {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
     return data;
   } catch (error) {
     handleError(error);
   }
 };
 
-export const updateUserAPI = async (request: RegisterRequest) => {
+export const updateUserAPI = async (users: any, access_token: any) => {
   try {
-    const data = await axios.put<ResponeDto>(api + "user", {
-      email: request.email,
-      username: request.fullName,
-      password: request.password,
-      phone: request.phone,
+    const data = await axios.patch<any>(api + "users/me/edit", {
+      fullName: users.fullName,
+      phone: users.phone,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
     });
+
     return data;
   } catch (error) {
     handleError(error);

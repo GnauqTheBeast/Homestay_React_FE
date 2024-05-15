@@ -5,6 +5,17 @@ const api = "http://localhost:8000/homestay/";
 
 type Props = {}
 
+export const getAllHomestay = async () => {
+  try {
+    const data: any = await axios.get<HomestayResponse[]>(api + "all");
+
+    return data;
+  } catch (error) {
+    // handleError(error);
+  }
+}
+
+
 export const getTrendingHomestay = async () => {
   try {
     const data: any = await axios.get<HomestayResponse[]>(api + "trending");
@@ -12,5 +23,35 @@ export const getTrendingHomestay = async () => {
     return data;
   } catch (error) {
     // handleError(error);
+  }
+}
+
+export const getCheapestHomestay = async () => {
+  try {
+    const data: any = await axios.get<HomestayResponse[]>(api + "cheapest");
+
+    return data;
+  } catch (error) {
+    // handleError(error);
+  }
+}
+
+export const getTopHomestay = async () => {
+  try {
+    const data: any = await axios.get<HomestayResponse[]>(api + "top");
+
+    return data;
+  } catch (error) {
+    
+  }
+}
+
+export const getHomestay = async (slug: string) => {
+  try {
+    const data: any = await axios.get<HomestayResponse[]>(api + slug);
+
+    return data;
+  } catch (error) {
+    
   }
 }

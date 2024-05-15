@@ -24,8 +24,7 @@ const validation = Yup.object().shape({
 });
 
 const RegisterPage = (props: Props) => {
-  const { registerUser, otpUser } = useAuth();
-  const navigate = useNavigate();
+  const { registerUser } = useAuth();
   const {
     register,
     handleSubmit,

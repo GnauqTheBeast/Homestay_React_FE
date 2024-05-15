@@ -5,4 +5,6 @@ export type HomestayResponse = {
     price: number;
     images: string;
     slug: string;
+    rateStar: number;
+    description: string;
 };

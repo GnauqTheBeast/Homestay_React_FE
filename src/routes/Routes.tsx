@@ -12,6 +12,10 @@ import User from "../components/User/User";
 import OtpPage from "../pages/OtpPage/OtpPage";
 import UsersPage from "../pages/UsersPage/UsersPage";
 import HomePage from "../pages/HomePage/HomePage";
+import Profile from "../components/Profile/Profile";
+import Finance from "../components/Finance/Finance";
+import SearchPage from "../pages/SearchPage/SearchPage";
+import DetailHomestayPage from "../pages/DetailHomestayPage/DetailHomestayPage";
 
 export const router = createBrowserRouter([
     {
@@ -23,15 +27,28 @@ export const router = createBrowserRouter([
         { path: "register", element: <RegisterPage /> },
         { path: "home", element: <HomePage /> },
         { path: "otp", element: <OtpPage /> },
+        { path: "search", element: <SearchPage /> },
+        { path: "homestay/:slug", element: <DetailHomestayPage /> },
         {
-            path: "admin/dashboard",
+          path: "booking",
+          element: (
+            <ProtectedRoute>
+              <BookingPage />
+            </ProtectedRoute>
+          ),
+          children: [
+            { path: ":slug", element: <BookingHomestayPage />},
+          ],
+        },
+        {
+            path: "admin",
             element: (
               <ProtectedRoute>
                 <DashboardPage />
               </ProtectedRoute>
             ),
             children: [
-              { path: "", element: <Dashboard /> },
+              { path: "dashboard", element: <DashboardPage /> },
               { path: "homestay", element: <Income /> },
               { path: "user", element: <User />},
               { path: "revenue", element: <Expense /> },
@@ -45,7 +62,8 @@ export const router = createBrowserRouter([
               </ProtectedRoute>
             ),
             children: [
-            
+              { path: "profile", element: <Profile />},
+              { path: "finance", element: <Finance />},
             ],
           },
       ],

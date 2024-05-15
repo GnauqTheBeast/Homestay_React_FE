@@ -59,13 +59,12 @@ export const UserProvider = ({ children }: Props) => {
                 setToken(response.access_token);
                 setUser(response.userId.toString());
                 toast.success("Login Success!");
-                console.log(response.status);
                 if(response.status == "pending") {
                   otpUser(response.access_token);
                   navigate("/otp");
                   return;
                 }
-                navigate("/dashboard");
+                navigate("/home");
             }
             catch(e){
                 toast.warning("Server error occured");
@@ -87,7 +86,7 @@ export const UserProvider = ({ children }: Props) => {
     await otpHandler(otp, access_token as string)
        .then(() => { 
           toast.success("OTP verified");
-          navigate("/dashboard");
+          navigate("/home");
        })
        .catch((e) => toast.warning("Server error occured"));
   }
