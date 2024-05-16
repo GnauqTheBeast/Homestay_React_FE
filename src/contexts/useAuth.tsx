@@ -7,6 +7,7 @@ import axios from "axios";
 import { LoginRequest, RegisterRequest, LoginResponse } from "../models/UserDto";
 
 type UserContextType = {
+  userRole: string;
   userId: string | null;
   token: string | null;
   registerUser: (registerRequest:RegisterRequest) => void;
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }: Props) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUser] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string>("");
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -56,8 +58,10 @@ export const UserProvider = ({ children }: Props) => {
                 localStorage.setItem("status", response.status);
                 localStorage.setItem("access_token", response.access_token);
                 localStorage.setItem("user", response.userId.toString());
+                localStorage.setItem("role", response.role);
                 setToken(response.access_token);
                 setUser(response.userId.toString());
+                setUserRole(response.role);
                 toast.success("Login Success!");
                 if(response.status == "pending") {
                   otpUser(response.access_token);
@@ -98,14 +102,16 @@ export const UserProvider = ({ children }: Props) => {
   const logout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
     setUser(null);
+    setUserRole("");
     setToken("");
     navigate("/");
   };
 
   return (
     <UserContext.Provider
-      value={{ loginUser, userId, token, logout, isLoggedIn, registerUser, otpUser, otpVerify }}
+      value={{ loginUser, userId, userRole, token, logout, isLoggedIn, registerUser, otpUser, otpVerify }}
     >
       {isReady ? children : null}
     </UserContext.Provider>

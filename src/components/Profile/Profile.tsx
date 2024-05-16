@@ -37,7 +37,6 @@ const Profile = (props: Props) => {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    console.log({ name, value });
     setProfile({
       ...profile,
       [name]: value

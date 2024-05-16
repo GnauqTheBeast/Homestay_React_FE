@@ -16,6 +16,10 @@ import Profile from "../components/Profile/Profile";
 import Finance from "../components/Finance/Finance";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import DetailHomestayPage from "../pages/DetailHomestayPage/DetailHomestayPage";
+import BookingPage from "../pages/BookingPage/BookingPage";
+import BookingHomestayPage from "../pages/BookingHomestayPage/BookingHomestayPage";
+import HostRoute from "./HostRoute";
+import CreateHomestayPage from "../pages/CreateHomestayPage/CreateHomestayPage";
 
 export const router = createBrowserRouter([
     {
@@ -28,17 +32,24 @@ export const router = createBrowserRouter([
         { path: "home", element: <HomePage /> },
         { path: "otp", element: <OtpPage /> },
         { path: "search", element: <SearchPage /> },
+        { path: "homestay/create", 
+          element: (
+          <HostRoute>
+            <CreateHomestayPage />
+          </HostRoute>
+          )
+        },
         { path: "homestay/:slug", element: <DetailHomestayPage /> },
         {
-          path: "booking",
+          path: "booking/:slug",
           element: (
             <ProtectedRoute>
-              <BookingPage />
+              <BookingHomestayPage />
             </ProtectedRoute>
           ),
-          children: [
-            { path: ":slug", element: <BookingHomestayPage />},
-          ],
+          // children: [
+          //   { path: ":slug", element: <BookingHomestayPage />},
+          // ],
         },
         {
             path: "admin",

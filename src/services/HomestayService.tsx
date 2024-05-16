@@ -55,3 +55,11 @@ export const getHomestay = async (slug: string) => {
     
   }
 }
+
+export const viewCountHomestay = async (slug: string) => {
+  try {
+    await axios.patch<any>(api + `view-increase/${slug}`);
+  } catch (error) {
+    // handleError(error);
+  }
+}

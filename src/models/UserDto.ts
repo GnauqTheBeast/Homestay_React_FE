@@ -24,6 +24,7 @@ export type LoginResponse = {
     userId: number;
     userEmail: string;
     status: string;
+    role: string;
 };
 
 export type OtpRequest = {

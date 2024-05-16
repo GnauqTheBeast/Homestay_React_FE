@@ -1,4 +1,5 @@
 import { Carousel } from "antd";
+import { Link } from "react-router-dom";
 
 const pageContainerStyle: React.CSSProperties = {
     backgroundColor: '#f0f2f5',
@@ -60,6 +61,9 @@ type CarouselComponentsProps = {
 type HomestayResponse = {
     name: string;
     images: string;
+    slug: string;
+    price: number;
+    viewCount?:number;
 };
 
 const CarouselComponents = ({ props, title }: CarouselComponentsProps) => {
@@ -75,16 +79,15 @@ const CarouselComponents = ({ props, title }: CarouselComponentsProps) => {
                         <Carousel autoplay style={carouselContainerStyle}>
                             {props.map((item, index) => (
                                 <div key={index} style={{ position: 'relative' }}>
-                                    <h3 style={{
-                                        ...contentStyle,
-                                        position: 'absolute',
-                                        bottom: '10px',
-                                        left: '10px',
-                                        color: 'white',
-                                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                        padding: '5px'
-                                    }}>{item.name}</h3>
-                                    <img src={item.images} alt={item.name} style={imageStyle} />
+                                    <Link to={`/homestay/${item.slug}`} style={{ display: 'block', position: 'relative' }}>
+                                        <h3 className="absolute bottom-2 left-2 text-white bg-black bg-opacity-50 p-2">
+                                            {item.name}
+                                        </h3>
+                                         <p className="absolute bottom-2 right-2 text-white lightGreen bg-black bg-opacity-50 p-2 m-0">
+                                            Views: {item.viewCount}
+                                        </p>
+                                        <img src={item.images} alt={item.name} style={imageStyle} />
+                                    </Link>
                                 </div>
                             ))}
                         </Carousel>
@@ -94,4 +97,5 @@ const CarouselComponents = ({ props, title }: CarouselComponentsProps) => {
         </>
     );
 }
+
 export default CarouselComponents;

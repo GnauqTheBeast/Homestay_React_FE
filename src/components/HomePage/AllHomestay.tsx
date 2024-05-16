@@ -1,6 +1,7 @@
-import { Avatar, Card, List } from "antd";
+import { Avatar, Card, List, Pagination } from "antd";
+import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 type TopHomestayProps = {
     homestays: HomestayResponse[];
@@ -16,20 +17,32 @@ type HomestayResponse = {
     description: string;
 }
 
-const TopHomestay = ({ homestays }: TopHomestayProps) => {
+const Homestay = ({ homestays }: TopHomestayProps) => {
     const navigate = useNavigate();
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
+
+    const handlePageChange = (page: any) => {
+        setCurrentPage(page);
+    };
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentHomestays = homestays.slice(startIndex, endIndex);
 
     return (
         <div style={{ padding: '0 20px' }}>
             <List
-            grid={{ gutter: 16, column: 4 }}
-            dataSource={homestays}
-            renderItem={(homestay) => (
+                grid={{ gutter: 16, column: 4 }}
+                dataSource={currentHomestays}
+                renderItem={(homestay) => (
                 <List.Item>
                     <Card
                         onClick={() => navigate(`/homestay/${homestay.slug}`)}
                         hoverable
                         cover={<img alt={homestay.name} src={homestay.images} />}
+                        className="my-4"
                     >
                         <Card.Meta
                         title={homestay.name}
@@ -48,8 +61,15 @@ const TopHomestay = ({ homestays }: TopHomestayProps) => {
                 </List.Item>
             )}
             />
+            <Pagination
+                current={currentPage}
+                pageSize={itemsPerPage}
+                total={homestays.length}
+                onChange={handlePageChange}
+                className="flex my-2 justify-center align-center"
+            />
         </div>
-      );
+    );
 }
 
-export default TopHomestay;
+export default Homestay;

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getCheapestHomestay, getTopHomestay, getTrendingHomestay } from '../../services/HomestayService';
+import { getAllHomestay, getCheapestHomestay, getTopHomestay, getTrendingHomestay } from '../../services/HomestayService';
 import { HomestayResponse } from '../../models/HomestayDto';
 import CarouselComponents from '../Carousel /Carousel';
-import TopHomestay from './TopHomestay';
-
-interface Props {}
+import Homestay from './AllHomestay';
 
 const Home: React.FC = () => {
     const [trending, setTrending] = useState<HomestayResponse[]>([]);
     const [cheapest, setCheapest] = useState<HomestayResponse[]>([]);
-    const [top, setTop] = useState<HomestayResponse[]>([]);
+    const [homestay, setHomestay] = useState<HomestayResponse[]>([]);
 
     useEffect(() => {
         getTrendingHomestay().then(res => {
@@ -24,9 +22,9 @@ const Home: React.FC = () => {
             }
         })
 
-        getTopHomestay().then(res => {
+        getAllHomestay().then(res => {
             if(res) {
-                setTop(res?.data);
+                setHomestay(res?.data);
             }
         })
 
@@ -36,7 +34,7 @@ const Home: React.FC = () => {
         <>  
             <CarouselComponents props={ trending } title={ "Trending Homestay" } />
             <CarouselComponents props={ cheapest } title={ "Affordable Homestay" } />
-            <TopHomestay homestays={ top } />
+            <Homestay homestays={ homestay } />
         </>
     );
 }

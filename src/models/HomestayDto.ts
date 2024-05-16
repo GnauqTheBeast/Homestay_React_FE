@@ -7,4 +7,14 @@ export type HomestayResponse = {
     slug: string;
     rateStar: number;
     description: string;
+    viewCount: number;
+};
+
+export type HomestayRequest = {
+    name: string;
+    address: string;
+    price: number;
+    images: string;
+    description: string;
+    service: string;
 };

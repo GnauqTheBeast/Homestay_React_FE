@@ -1,9 +1,9 @@
 import { Button, Card, Col, Row } from "antd";
 import Meta from "antd/es/card/Meta";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { HomestayResponse } from "../../models/HomestayDto";
 import { useEffect, useState } from "react";
-import { getHomestay } from "../../services/HomestayService";
+import { getHomestay, viewCountHomestay } from "../../services/HomestayService";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
 interface Props {}
@@ -38,10 +38,17 @@ const DetailHomestayComponents = () => {
     useEffect(() => {
         getHomestay(slug as string).then((res) => {
             if (res) {
-                setHomestay(res?.data);
+              setHomestay(res?.data);
             }
-        })
+        });
+
+        viewCountHomestay(slug as string).then(() => {});
     }, [])
+
+    const navigate = useNavigate();
+    const handleBooking = () => {
+      navigate(`/booking/${homestay.slug}`);
+    }
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -72,7 +79,7 @@ const DetailHomestayComponents = () => {
                   <p className="text-lg">Available Dates: May 20, 2024 - May 25, 2024</p>
                   {/* <p className="text-lg">Hosted by: John Doe</p> */}
                   {homestay.description ? <p className="text-lg">{homestay.description}</p> : <></>}
-                  <Button type="primary">Book Now</Button>
+                  <Button onClick={handleBooking} type="primary">Book Now</Button>
                 </div>
               </div>
             </div>

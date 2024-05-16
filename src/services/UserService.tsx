@@ -2,6 +2,8 @@ import axios from "axios";
 import { handleError } from "../helpers/ErrorHandler";
 import { LoginRequest, LoginResponse, RegisterRequest} from "../models/UserDto";
 import { ResponeDto } from "../models/ResponeDto";
+import { HomestayRequest, HomestayResponse } from "../models/HomestayDto";
+import { toast } from "react-toastify";
 
 const api = "http://localhost:8000/";
 
@@ -11,6 +13,7 @@ export const loginAPI = async (request : LoginRequest) => {
       email: request.email,
       password: request.password,
     });
+    
     return data;
   } catch (error) {
     handleError(error);
@@ -91,5 +94,22 @@ export const otpHandler = async (otp: string, access_token: string) => {
     return data;
   } catch (error) {
     handleError(error);
+  }
+}
+
+export const createHomestay = async (homestay: HomestayRequest) => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    await axios.post<HomestayRequest>(api + "users/host/create-homestay", {...homestay}, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+
+    return true;
+  } catch (error) {
+    // handleError(error);
+    toast.error("This homestay name already exists");
+    return false;
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import type { DatePickerProps } from 'antd';
-import { DatePicker, Space, theme } from 'antd';
+import { DatePicker , Space, theme } from 'antd';
 import type { Dayjs } from 'dayjs';
 
-const App: React.FC = () => {
+const DatePickerComponent: React.FC = () => {
   const { token } = theme.useToken();
   const style: React.CSSProperties = {
     border: `1px solid ${token.colorPrimary}`,
@@ -30,4 +30,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default DatePickerComponent;
