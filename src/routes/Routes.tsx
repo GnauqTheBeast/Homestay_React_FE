@@ -2,13 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import StartPage from "../pages/StartPage/StartPage";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
-import Income from "../components/Income/Income";
-import Expense from "../components/Expense/Expense";
-import Dashboard from "../components/Dashboard/Dashboard";
+import AdminHomestay from "../components/AdminHomestay/AdminHomestay";
+import Revenue from "../components/Revenue/Expense";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
-import User from "../components/User/User";
+import AdminUser from "../components/AdminUser/AdminUser";
 import OtpPage from "../pages/OtpPage/OtpPage";
 import UsersPage from "../pages/UsersPage/UsersPage";
 import HomePage from "../pages/HomePage/HomePage";
@@ -16,10 +15,14 @@ import Profile from "../components/Profile/Profile";
 import Finance from "../components/Finance/Finance";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import DetailHomestayPage from "../pages/DetailHomestayPage/DetailHomestayPage";
-import BookingPage from "../pages/BookingPage/BookingPage";
 import BookingHomestayPage from "../pages/BookingHomestayPage/BookingHomestayPage";
 import HostRoute from "./HostRoute";
 import CreateHomestayPage from "../pages/CreateHomestayPage/CreateHomestayPage";
+import ListHomestayPage from "../pages/ListHomestayPage/ListHomestayPage";
+import HostHomestayPage from "../pages/HostHomestayPage/HostHomestayPage";
+import AdminRoute from "./AdminRoute";
+import AdminDashboardPage from "../pages/AdminDashboardPage/AdminDashboardPage";
+import EditHomestayPage from "../pages/EditHomestayPage/EditHomestayPage";
 
 export const router = createBrowserRouter([
     {
@@ -32,37 +35,42 @@ export const router = createBrowserRouter([
         { path: "home", element: <HomePage /> },
         { path: "otp", element: <OtpPage /> },
         { path: "search", element: <SearchPage /> },
-        { path: "homestay/create", 
+        { path: "homestay", 
           element: (
           <HostRoute>
-            <CreateHomestayPage />
+            {/* <HostHomestayPage /> */}
+            <UsersPage />
           </HostRoute>
-          )
+          ),
+          children: [
+            { path: "create", element: <CreateHomestayPage /> },
+            { path: "edit/:slug", element: <EditHomestayPage /> }
+          ],
         },
-        { path: "homestay/:slug", element: <DetailHomestayPage /> },
+        { path: "homestay/:slug", element: <DetailHomestayPage />},
         {
-          path: "booking/:slug",
+          path: "booking",
           element: (
             <ProtectedRoute>
               <BookingHomestayPage />
             </ProtectedRoute>
           ),
-          // children: [
-          //   { path: ":slug", element: <BookingHomestayPage />},
-          // ],
+          children: [
+            { path: ":slug", element: <BookingHomestayPage />},
+          ],
         },
         {
             path: "admin",
             element: (
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
+              <AdminRoute>
+                <AdminDashboardPage />
+              </AdminRoute>
             ),
             children: [
               { path: "dashboard", element: <DashboardPage /> },
-              { path: "homestay", element: <Income /> },
-              { path: "user", element: <User />},
-              { path: "revenue", element: <Expense /> },
+              { path: "homestay", element: <AdminHomestay /> },
+              { path: "user", element: <AdminUser /> },
+              { path: "revenue", element: <Revenue /> },
             ],
           },
           {
@@ -74,7 +82,20 @@ export const router = createBrowserRouter([
             ),
             children: [
               { path: "profile", element: <Profile />},
-              { path: "finance", element: <Finance />},
+              { 
+                path: "finance", 
+                element:
+                <HostRoute>
+                  <Finance />
+                </HostRoute>
+              },
+              { 
+                path: "homestay-list", 
+                element:
+                  <HostRoute>
+                    <ListHomestayPage /> 
+                  </HostRoute>
+              },
             ],
           },
       ],

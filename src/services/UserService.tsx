@@ -100,6 +100,7 @@ export const otpHandler = async (otp: string, access_token: string) => {
 export const createHomestay = async (homestay: HomestayRequest) => {
   try {
     const access_token = localStorage.getItem("access_token");
+
     await axios.post<HomestayRequest>(api + "users/host/create-homestay", {...homestay}, {
       headers: {
         'Authorization': `Bearer ${access_token}`
@@ -110,6 +111,39 @@ export const createHomestay = async (homestay: HomestayRequest) => {
   } catch (error) {
     // handleError(error);
     toast.error("This homestay name already exists");
+    return false;
+  }
+}
+
+export const updateUserHomestay = async (slug: string, homestay: HomestayRequest) => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+
+    return await axios.patch<HomestayResponse>(api + `users/host/edit-homestay/${slug}`, {...homestay}, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    
+  } catch (error) {
+    toast.error("Cant not edit user homestay");
+
+    return false;
+  }
+}
+
+export const deleteUserHomestay = async (slug: string) => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+
+    return await axios.delete<any>(api + `users/host/delete-homestay/${slug}`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+  } catch (error) {
+    toast.error("Cant not get user homestay");
+
     return false;
   }
 }

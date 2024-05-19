@@ -3,7 +3,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 
 type Props = {};
 
-const UsersPage = (props: Props) => {
+const HostHomestayPage = (props: Props) => {
   return (
     <>
       <Sidebar />
@@ -11,7 +11,7 @@ const UsersPage = (props: Props) => {
           <div className="relative pb-32 bg-lightBlue-500">
             <div className="px-4 md:px-6 mx-auto w-full">
               <div>  
-                <div className='flex flex-wrap'>{<Outlet />}</div>
+                <div className="flex flex-wrap">{<Outlet />}</div>
               </div>
             </div>
           </div>
@@ -20,4 +20,4 @@ const UsersPage = (props: Props) => {
   );
 };
 
-export default UsersPage;
+export default HostHomestayPage;

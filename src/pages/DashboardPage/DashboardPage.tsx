@@ -1,23 +1,23 @@
-import Sidebar from '../../components/Sidebar/Sidebar'
-import { Outlet } from 'react-router'
+import { Layout } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import ChartLine from '../../components/ChartLine/ChartLine';
 
 type Props = {}
 
 const DashboardPage = (props: Props) => {
   return (
     <>
-        <Sidebar />
-        <div className="relative md:ml-64 bg-blueGray-100 w-full">
-          <div className="relative pb-32 bg-lightBlue-500">
-            <div className="px-4 md:px-6 mx-auto w-full">
-              <div>  
-                <div className="flex flex-wrap">{<Outlet />}</div>
-              </div>
-            </div>
+      <Layout className="site-layout">
+        <Content className="bg-gray-100 p-4 md:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           </div>
-        </div>
+          <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+            <ChartLine />
+          </div>
+        </Content>
+      </Layout>
     </>
-  )
+  );
 }
 
 export default DashboardPage

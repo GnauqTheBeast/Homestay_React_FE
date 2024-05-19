@@ -52,7 +52,7 @@ const Navbar = (props: Props) => {
               </Link>
             </>
           )}
-          <div className="relative">
+          <div className="relative z-10">
             <button
               onClick={toggleDropdown}
               className="px-4 py-2 font-bold rounded text-white bg-blue-500 hover:bg-blue-700"
@@ -68,8 +68,8 @@ const Navbar = (props: Props) => {
                     </button>
                   )}
                   {userRole === 'admin' && (
-                    <button className="px-4 py-2 font-bold rounded text-white bg-red-500 hover:bg-red-700">
-                      Admin Dashboard
+                    <button onClick={() => navigate("admin/dashboard")} className="px-4 py-2 font-bold rounded text-white bg-red-500 hover:bg-red-700 z-50">
+                      Dashboard
                     </button>
                   )}
                 </div>

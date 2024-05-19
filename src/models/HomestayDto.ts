@@ -8,6 +8,7 @@ export type HomestayResponse = {
     rateStar: number;
     description: string;
     viewCount: number;
+    service: string;
 };
 
 export type HomestayRequest = {

@@ -19,7 +19,7 @@ const Profile = (props: Props) => {
   const handleSaveClick = () => {
     const access_token = localStorage.getItem('access_token');
     const updateProfile = { fullName: profile.fullName, phone: profile.phone };
-    updateUserAPI(updateProfile, access_token).then((res) => {
+    updateUserAPI(updateProfile, access_token).then(() => {
       setIsEditing(false);
     })
   };
@@ -45,6 +45,7 @@ const Profile = (props: Props) => {
 
   return (
     <Card
+      className="max-w-3xl"
       actions={[
         isEditing ? (
           <>
@@ -67,7 +68,7 @@ const Profile = (props: Props) => {
         title={profile.fullName}
         description={profile.role}
       />
-      <Descriptions title="User Info" layout="vertical" bordered>
+      <Descriptions title="User Info" layout="vertical" className="my-3" bordered>
         <Descriptions.Item label="Full Name">
           {isEditing ? (
             <Input

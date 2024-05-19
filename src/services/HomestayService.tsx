@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { HomestayResponse } from "../models/HomestayDto";
+import { toast } from "react-toastify";
 
 const api = "http://localhost:8000/homestay/";
 
@@ -48,7 +49,7 @@ export const getTopHomestay = async () => {
 
 export const getHomestay = async (slug: string) => {
   try {
-    const data: any = await axios.get<HomestayResponse[]>(api + slug);
+    const data: any = await axios.get<HomestayResponse>(api + slug);
 
     return data;
   } catch (error) {
@@ -61,5 +62,13 @@ export const viewCountHomestay = async (slug: string) => {
     await axios.patch<any>(api + `view-increase/${slug}`);
   } catch (error) {
     // handleError(error);
+  }
+}
+
+export const getUserHomestay = async (userId: number) => {
+  try {
+    return await axios.get<HomestayResponse>(api + `${userId}/all`);
+  } catch (error) {
+    toast.error("Cant not get user homestay")
   }
 }

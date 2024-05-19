@@ -1,22 +1,40 @@
+import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Input, Button, Form, Row, Col } from 'antd';
-import { HomestayRequest } from '../../models/HomestayDto';
-import { createHomestay } from '../../services/UserService';
+import { HomestayRequest, HomestayResponse } from '../../models/HomestayDto';
 import { toast } from 'react-toastify';
+import { getHomestay } from '../../services/HomestayService';
+import { updateUserHomestay } from '../../services/UserService';
 
-const CreateHomestayPage = () => {
+const EditHomestayPage = () => {
     const navigate = useNavigate();
+    const { slug } = useParams();
+    const [homestay, setHomestay] = useState<HomestayResponse>({} as HomestayResponse);
+
+    useEffect(() => {
+        const fetchHomestay = async () => {
+            try {
+                getHomestay(slug as string).then((res) => {
+                    setHomestay(res?.data);
+                });
+            } catch (error) {
+                toast.warning(error as string);
+            }
+        };
+        fetchHomestay();
+    }, [slug]);
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            name: '',
-            address: '',
-            description: '',
-            service: '',
-            images: '',
-            price: 0,
+            name: homestay?.name || '',
+            address: homestay?.address || '',
+            description: homestay?.description || '',
+            service: homestay?.service || '',
+            images: homestay?.images || '',
+            price: homestay?.price || 0,
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Required'),
@@ -27,14 +45,22 @@ const CreateHomestayPage = () => {
             price: Yup.number().required('Required').positive('Must be positive'),
         }),
         onSubmit: async (values: HomestayRequest) => {
-            await createHomestay(values) && toast.success("Create new homestay successful"); 
-            navigate('/homestay/create');
+            try {
+                await updateUserHomestay(slug as string, values) && toast.success("Homestay updated successfully");
+
+                navigate('/users/homestay-list');
+            } catch (error) {
+                console.error('Error updating homestay:', error);
+                toast.error("Failed to update homestay");
+            }
         },
     });
 
+    if (!homestay) return <div>Loading...</div>;
+
     return (
         <div className='flex flex-col justify-center p-5'>
-            <h2 className="text-2xl font-bold text-lightGreen p-2">Create Homestay</h2>
+            <h2 className="text-2xl font-bold text-lightGreen p-2">Edit Homestay</h2>
             <Form onFinish={formik.handleSubmit} layout="vertical">
                 <Row gutter={16}>
                     <Col span={12}>
@@ -137,4 +163,4 @@ const CreateHomestayPage = () => {
     );
 };
 
-export default CreateHomestayPage;
+export default EditHomestayPage;

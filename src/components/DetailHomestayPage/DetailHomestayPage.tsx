@@ -1,7 +1,6 @@
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card } from "antd";
 import Meta from "antd/es/card/Meta";
 import { useNavigate, useParams } from "react-router";
-import { HomestayResponse } from "../../models/HomestayDto";
 import { useEffect, useState } from "react";
 import { getHomestay, viewCountHomestay } from "../../services/HomestayService";
 import { FaRegStar, FaStar } from "react-icons/fa";

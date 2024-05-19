@@ -9,8 +9,8 @@ const BookingHomestayPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <Card className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+    <div className="flex flex-auto justify-center items-center h-screen bg-gray-100">
+      <Card className="max-w-sm bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-semibold text-center mb-4">Book Your Stay</h1>
         <Form layout="vertical" onFinish={handleFinish}>
           <Form.Item

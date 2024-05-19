@@ -41,7 +41,7 @@ const Homestay = ({ homestays }: TopHomestayProps) => {
                     <Card
                         onClick={() => navigate(`/homestay/${homestay.slug}`)}
                         hoverable
-                        cover={<img alt={homestay.name} src={homestay.images} />}
+                        cover={<img alt={homestay.name} src={homestay.images} className="w-64 h-64 object-cover" />}
                         className="my-4"
                     >
                         <Card.Meta
