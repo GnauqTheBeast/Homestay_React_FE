@@ -1,20 +1,29 @@
 import { Avatar, List, Modal, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { HomestayResponse } from '../../models/HomestayDto';
-import { getAllHomestay } from '../../services/HomestayService';
-import { deleteUserHomestay } from '../../services/UserService';
+import { getUserHomestay } from '../../services/HomestayService';
+import { useAuth } from '../../contexts/useAuth';
+import { useNavigate } from 'react-router';
+import { deleteUserHomestay, getBookedHomestayData } from '../../services/UserService';
 import { toast } from 'react-toastify';
 
-const AdminHomestay = () => {
-  const [data, setData] = useState<HomestayResponse[]>([]);
+const BookedHomestayPage = () => {
+  const [data, setData] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [slug, setSlug] = useState("");
   const [render, setRender] = useState(0);
 
+  const navigate = useNavigate();
+
+  const handleEdit = (slug: string) => {
+    navigate(`/homestay/edit/${slug}`);
+  }
+
   useEffect(() => {
-    getAllHomestay().then((res) => {
+    getBookedHomestayData().then((res) => {
       if (res) {
         setData(res?.data as any);
+        console.log(res?.data);
       }
     })
   }, [render]);
@@ -45,24 +54,24 @@ const AdminHomestay = () => {
   return (
       <div className="w-full max-w-4xl">
         <Space direction="vertical" className='p-2' size="middle">
-          <h2>View List All Homestay</h2>
+          <h2>View List Your Homestay</h2>
         </Space>
         <List
           pagination={{
             position: 'bottom',
             align: 'center',
-            pageSize: 6,
+            pageSize: 5,
             defaultCurrent: 1,
           }}
           dataSource={data}
           renderItem={(item) => (
             <List.Item
-              actions={[<a className='text-lightGreen' key="list-loadmore-edit">edit</a>, <a onClick={() => handleDelete(item.slug)} className='text-redWarning' key="list-loadmore-more">delete</a>]}
+              actions={[<a onClick={() => handleEdit(item.homestay.slug)} className='text-lightGreen' key="list-loadmore-edit">detail</a>, <a onClick={() => handleDelete(item.homestay.slug)} className='text-redWarning' key="list-loadmore-more">cancel</a>]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.images} />}
-                title={<a onClick={handleClick}>{item.name}</a>}
-                description={item.description}
+                avatar={<Avatar src={item.homestay.images} />}
+                title={<a onClick={handleClick}>{item.homestay.name} - {item.users.fullName}</a>}
+                description={item.homestay.description}
               />
             </List.Item>
           )}
@@ -74,4 +83,4 @@ const AdminHomestay = () => {
   );
 };
 
-export default AdminHomestay;
+export default BookedHomestayPage;

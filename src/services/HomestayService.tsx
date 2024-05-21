@@ -4,8 +4,6 @@ import { toast } from "react-toastify";
 
 const api = "http://localhost:8000/homestay/";
 
-type Props = {}
-
 export const getAllHomestay = async () => {
   try {
     const data: any = await axios.get<HomestayResponse[]>(api + "all");

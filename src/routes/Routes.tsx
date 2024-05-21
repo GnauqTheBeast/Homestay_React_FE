@@ -3,7 +3,6 @@ import App from "../App";
 import StartPage from "../pages/StartPage/StartPage";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import AdminHomestay from "../components/AdminHomestay/AdminHomestay";
-import Revenue from "../components/Revenue/Expense";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
@@ -19,10 +18,11 @@ import BookingHomestayPage from "../pages/BookingHomestayPage/BookingHomestayPag
 import HostRoute from "./HostRoute";
 import CreateHomestayPage from "../pages/CreateHomestayPage/CreateHomestayPage";
 import ListHomestayPage from "../pages/ListHomestayPage/ListHomestayPage";
-import HostHomestayPage from "../pages/HostHomestayPage/HostHomestayPage";
 import AdminRoute from "./AdminRoute";
 import AdminDashboardPage from "../pages/AdminDashboardPage/AdminDashboardPage";
 import EditHomestayPage from "../pages/EditHomestayPage/EditHomestayPage";
+import HomestayPage from "../pages/HomestayPage/HomestayPage";
+import BookedHomestayPage from "../pages/BookedHomestayPage/BookedHomestayPage";
 
 export const router = createBrowserRouter([
     {
@@ -35,16 +35,16 @@ export const router = createBrowserRouter([
         { path: "home", element: <HomePage /> },
         { path: "otp", element: <OtpPage /> },
         { path: "search", element: <SearchPage /> },
+        { path: "homestay", element: <HomestayPage />},
         { path: "homestay", 
           element: (
           <HostRoute>
-            {/* <HostHomestayPage /> */}
             <UsersPage />
           </HostRoute>
           ),
           children: [
             { path: "create", element: <CreateHomestayPage /> },
-            { path: "edit/:slug", element: <EditHomestayPage /> }
+            { path: "edit/:slug", element: <EditHomestayPage /> },
           ],
         },
         { path: "homestay/:slug", element: <DetailHomestayPage />},
@@ -69,8 +69,7 @@ export const router = createBrowserRouter([
             children: [
               { path: "dashboard", element: <DashboardPage /> },
               { path: "homestay", element: <AdminHomestay /> },
-              { path: "user", element: <AdminUser /> },
-              { path: "revenue", element: <Revenue /> },
+              { path: "users", element: <AdminUser /> },
             ],
           },
           {
@@ -95,6 +94,13 @@ export const router = createBrowserRouter([
                   <HostRoute>
                     <ListHomestayPage /> 
                   </HostRoute>
+              },
+             { 
+              path: "booked", 
+              element:
+                <HostRoute>
+                  <BookedHomestayPage /> 
+                </HostRoute> 
               },
             ],
           },

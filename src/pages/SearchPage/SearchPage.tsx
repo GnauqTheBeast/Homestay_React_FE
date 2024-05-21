@@ -3,7 +3,7 @@ import { getAllHomestay } from '../../services/HomestayService';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 
-type Hotel = {
+type Homestay = {
     id: number;
     name: string;
     address: string;
@@ -29,8 +29,8 @@ const inputStyle = {
     
 const SearchPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState<Hotel[]>([]);
-    const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [searchResults, setSearchResults] = useState<Homestay[]>([]);
+    const [hotels, setHotels] = useState<Homestay[]>([]);
 
     const navigate = useNavigate();
 

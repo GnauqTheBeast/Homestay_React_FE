@@ -14,7 +14,7 @@ export type LoginRequest = {
 export type UserGet = {
     id: string;
     email: string;
-    phoneNumber: string;
+    phone: string;
     fullName: string;
 };
 

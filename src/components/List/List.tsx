@@ -67,7 +67,7 @@ const ListComponents = () => {
           dataSource={data}
           renderItem={(item) => (
             <List.Item
-              actions={[<a onClick={() => handleEdit(item.slug)} className='text-lightGreen' key="list-loadmore-edit">edit</a>, <a onClick={() => handleDelete(item.slug)} className='text-redWarnning' key="list-loadmore-more">delete</a>]}
+              actions={[<a onClick={() => handleEdit(item.slug)} className='text-lightGreen' key="list-loadmore-edit">edit</a>, <a onClick={() => handleDelete(item.slug)} className='text-redWarning' key="list-loadmore-more">delete</a>]}
             >
               <List.Item.Meta
                 avatar={<Avatar src={item.images} />}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { handleError } from "../helpers/ErrorHandler";
-import { LoginRequest, LoginResponse, RegisterRequest} from "../models/UserDto";
+import { LoginRequest, LoginResponse, RegisterRequest } from "../models/UserDto";
 import { ResponeDto } from "../models/ResponeDto";
 import { HomestayRequest, HomestayResponse } from "../models/HomestayDto";
 import { toast } from "react-toastify";
@@ -145,5 +145,64 @@ export const deleteUserHomestay = async (slug: string) => {
     toast.error("Cant not get user homestay");
 
     return false;
+  }
+}
+
+export const getBookedHomestayData = async () => {
+  try {
+    const userId = localStorage.getItem("user");
+
+    const access_token = localStorage.getItem("access_token");
+
+    const data: any = await axios.get<any>(`${api}booking/booked`, {
+      params: {
+        userId: userId
+      },
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    
+
+    return data;
+  } catch (error) {
+    // handleError(error);
+    toast.error("Can't get booked data");
+  }
+}
+
+export const getAllUsers = async () => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+
+    const data: any = await axios.get<any>(`${api}admin/all-users`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    
+    return data;
+  } catch (error) {
+    // handleError(error);
+    toast.error("Can't get data");
+  }
+}
+
+export const changeActiveUser = async (userId: number, active: boolean) => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+
+    const data: any = await axios.patch<any>(`${api}admin/change-active-users/${userId}`, {
+      isActive: active
+    }, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    
+    return data;
+  } catch (error) {
+    // handleError(error);
+    toast.error("Can't get data");
   }
 }

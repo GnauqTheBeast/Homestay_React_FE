@@ -19,9 +19,12 @@ const Navbar = (props: Props) => {
     <nav className="relative container mx-auto p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-20">
-          <Link to="/">Gnauq Homestay</Link>
           <div className="hidden font-bold lg:flex">
-            <Link to="/search" className="text-black hover:text-darkBlue">
+            <Link to="/" className="text-black hover:text-darkBlue">Gnauq Homestay</Link>
+          </div>
+            <Link to="/homestay">Homestay</Link>
+          <div className="hidden lg:flex">
+            <Link to="/search">
               Search
             </Link>
           </div>
